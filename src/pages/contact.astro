@@ -1,0 +1,367 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Dinuli Galgamuwa — open to internship opportunities, research collaborations, and consulting discussions."
+  activeNav="contact"
+>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <span class="section__eyebrow reveal">Reach Out</span>
+      <h1 class="page-header__title reveal reveal--delay-1">Contact</h1>
+      <p class="page-header__subtitle reveal reveal--delay-2">
+        Open to internship opportunities, research collaborations, and consulting discussions.
+        Starting November 2026.
+      </p>
+      <div class="divider reveal reveal--delay-3"></div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Form -->
+        <div class="contact-form-wrap reveal">
+          <h2 class="contact-form-wrap__title">Send a Message</h2>
+          <p class="contact-form-wrap__subtitle">
+            Fill in the form below and I'll get back to you as soon as I can.
+          </p>
+
+          <!--
+            TODO: Replace the Formspree action URL with your real form endpoint.
+            Steps:
+            1. Sign up at https://formspree.io
+            2. Create a new form
+            3. Replace 'yourFormId' below with your real form ID
+          -->
+          <form
+            id="contact-form"
+            action="https://formspree.io/f/yourFormId"
+            method="POST"
+            novalidate
+          >
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Full Name <span aria-hidden="true">*</span></label>
+              <input
+                class="form-input"
+                type="text"
+                id="contact-name"
+                name="name"
+                placeholder="Your full name"
+                required
+                autocomplete="name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email Address <span aria-hidden="true">*</span></label>
+              <input
+                class="form-input"
+                type="email"
+                id="contact-email"
+                name="email"
+                placeholder="your@email.com"
+                required
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Subject</label>
+              <input
+                class="form-input"
+                type="text"
+                id="contact-subject"
+                name="subject"
+                placeholder="What's this about?"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-message">Message <span aria-hidden="true">*</span></label>
+              <textarea
+                class="form-textarea"
+                id="contact-message"
+                name="message"
+                placeholder="Tell me about your project, opportunity, or question..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary" id="contact-submit-btn" style="width: 100%;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Send Message
+            </button>
+
+            <div id="form-success" class="alert alert--success" role="alert" aria-live="polite">
+              ✓ Message sent successfully! I'll get back to you soon.
+            </div>
+            <div id="form-error" class="alert alert--error" role="alert" aria-live="polite">
+              ✗ Something went wrong. Please try again or email me directly.
+            </div>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info reveal reveal--delay-2">
+          <h2 class="contact-info__title">Other Ways to Connect</h2>
+
+          <div class="contact-info-items">
+            <a
+              href="mailto:dinulisengalgamuwa@gmail.com"
+              class="contact-info-item"
+              id="contact-email-link"
+            >
+              <div class="contact-info-item__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </div>
+              <div>
+                <div class="contact-info-item__label">Email</div>
+                <div class="contact-info-item__value">dinulisengalgamuwa@gmail.com</div>
+              </div>
+            </a>
+
+            <!-- TODO: Confirm LinkedIn URL is correct before publishing -->
+            <a
+              href="https://linkedin.com/in/dinuligalgamuwa"
+              class="contact-info-item"
+              id="contact-linkedin-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="contact-info-item__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="contact-info-item__label">LinkedIn</div>
+                <div class="contact-info-item__value">linkedin.com/in/dinuligalgamuwa</div>
+              </div>
+            </a>
+
+            <div class="contact-info-item contact-info-item--static">
+              <div class="contact-info-item__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div>
+                <div class="contact-info-item__label">Location</div>
+                <div class="contact-info-item__value">Anuradhapura, Sri Lanka · University of Moratuwa</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability notice -->
+          <div class="availability-card reveal reveal--delay-3">
+            <div class="availability-card__icon">🗓️</div>
+            <div>
+              <div class="availability-card__title">Open to Opportunities</div>
+              <div class="availability-card__desc">
+                Actively seeking <strong>management consulting internships</strong> starting
+                November 2026. Also open to research collaborations and part-time analytical work.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    padding-bottom: var(--space-10);
+    background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-header__subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 55ch;
+  }
+
+  /* Contact grid */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  .contact-form-wrap__title {
+    font-size: 1.4rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .contact-form-wrap__subtitle {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    font-size: 0.95rem;
+  }
+
+  /* Contact info */
+  .contact-info__title {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-6);
+  }
+
+  .contact-info-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: #fff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all var(--transition-base);
+  }
+
+  a.contact-info-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .contact-info-item--static { cursor: default; }
+  .contact-info-item--static:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--color-border);
+  }
+
+  .contact-info-item__icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+  }
+
+  .contact-info-item__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    margin-bottom: var(--space-1);
+  }
+
+  .contact-info-item__value {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  /* Availability */
+  .availability-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding: var(--space-5);
+    background: linear-gradient(135deg, rgba(139,133,166,0.06) 0%, rgba(201,166,107,0.06) 100%);
+    border: 1.5px solid var(--color-primary-light);
+    border-radius: var(--radius-md);
+  }
+
+  .availability-card__icon { font-size: 1.5rem; }
+
+  .availability-card__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-1);
+  }
+
+  .availability-card__desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 1024px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-info { order: -1; }
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const successAlert = document.getElementById('form-success');
+  const errorAlert = document.getElementById('form-error');
+  const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Hide previous messages
+    successAlert?.classList.remove('is-visible');
+    errorAlert?.classList.remove('is-visible');
+
+    // Loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    try {
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (response.ok) {
+        form.reset();
+        successAlert?.classList.add('is-visible');
+        successAlert?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch {
+      errorAlert?.classList.add('is-visible');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message`;
+    }
+  });
+</script>

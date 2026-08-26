@@ -1,0 +1,359 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const latestPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const portfolioHighlights = [
+  {
+    title: 'Pharmacy Inventory Monitoring & Optimisation System',
+    description: 'Built a real-time tracking system with automated purchasing and return alerts to prevent stockouts and optimise inventory flow.',
+    tags: ['Python', 'Data Analysis', 'Supply Chain'],
+    year: '2026',
+    status: 'completed',
+    href: '/portfolio',
+  },
+  {
+    title: 'Empty Container Optimisation Model',
+    description: 'Developing a data-driven model using minimum-cost flow optimisation to reduce container repositioning costs and maximise asset utilisation.',
+    tags: ['Operations Research', 'Python', 'Transport Engineering'],
+    year: '2026',
+    status: 'ongoing',
+    href: '/portfolio',
+  },
+];
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+}
+---
+
+<BaseLayout
+  title="Home"
+  description="Dinuli Galgamuwa — Engineering Undergraduate at University of Moratuwa, CIMA Student, and Consulting & Strategy Aspirant specialising in Transport Management & Logistics."
+  activeNav="home"
+>
+  <!-- ── HERO ──────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Introduction">
+    <div class="container">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <!-- Placeholder eyebrow — replace with preferred intro label -->
+          <span class="hero__eyebrow">Engineering · Analytics · Consulting</span>
+
+          <h1 class="hero__title">
+            Hi, I'm <span class="accent">Dinuli</span><br />
+            Galgamuwa
+          </h1>
+
+          <!-- Placeholder tagline — edit to match Dinuli's preferred one-liner -->
+          <p class="hero__tagline">
+            Engineering Undergraduate at the University of Moratuwa · CIMA Candidate ·
+            Passionate about using data and strategic thinking to solve complex logistics
+            and transport challenges.
+          </p>
+
+          <div class="hero__ctas">
+            <a href="/portfolio" class="btn btn--primary" id="hero-cta-portfolio">
+              View My Work
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="/blog" class="btn btn--secondary" id="hero-cta-blog">Read My Blog</a>
+          </div>
+        </div>
+
+        <div class="hero__avatar">
+          <!-- TODO: Replace /images/avatar-placeholder.png with Dinuli's real photo -->
+          <img
+            src="/images/avatar-placeholder.png"
+            alt="Dinuli Galgamuwa — portrait"
+            class="hero__avatar-img"
+            width="280"
+            height="280"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS STRIP ────────────────────────────────────────── -->
+  <section class="stats-strip" aria-label="Quick highlights">
+    <div class="container">
+      <div class="stats-row">
+        <div class="stat reveal">
+          <div class="stat__value">4.0</div>
+          <div class="stat__label">Dean's List GPA</div>
+        </div>
+        <div class="stat reveal reveal--delay-1">
+          <div class="stat__value">CIMA</div>
+          <div class="stat__label">Management Level ✓</div>
+        </div>
+        <div class="stat reveal reveal--delay-2">
+          <div class="stat__value">5+</div>
+          <div class="stat__label">Certifications</div>
+        </div>
+        <div class="stat reveal reveal--delay-3">
+          <div class="stat__value">2</div>
+          <div class="stat__label">Active Projects</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INTRO ─────────────────────────────────────────────── -->
+  <section class="section section--alt" aria-label="About me brief">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro__text reveal">
+          <span class="section__eyebrow">About Me</span>
+          <h2 class="intro__heading">Bridging Technical Engineering &amp; Strategic Management</h2>
+          <div class="divider divider--left"></div>
+          <p class="intro__body">
+            I'm a 3rd-year BSc Engineering (Honours) student in Transport Management &amp; Logistics
+            at the University of Moratuwa — Sri Lanka's leading technical university. Alongside my
+            engineering studies, I'm pursuing the CIMA (Chartered Institute of Management Accountants)
+            qualification, building the financial and strategic literacy that separates an analyst
+            from a trusted advisor.
+          </p>
+          <p class="intro__body">
+            My work focuses on data-driven optimisation: inventory systems, container repositioning models,
+            and cost analysis frameworks. I believe the most valuable engineering contributions happen
+            at the intersection of technical rigor and business insight.
+          </p>
+          <a href="/about" class="btn btn--secondary btn--sm" id="intro-about-link">Learn More About Me</a>
+        </div>
+        <div class="intro__skills reveal reveal--delay-2">
+          <span class="section__eyebrow">Core Skills</span>
+          <div class="skills-grid" style="margin-top: 1rem;">
+            {['Python · C# · R', 'Advanced Excel', 'Data Analysis & Reporting', 'Operations Research', 'Cost & Budget Analysis', 'Financial Modelling', 'SAP Technology', 'Power BI Analytics'].map(skill => (
+              <div class="skill-item">
+                <span class="skill-item__dot"></span>
+                {skill}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LATEST POSTS ───────────────────────────────────────── -->
+  <section class="section" aria-labelledby="latest-posts-heading">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__eyebrow">From the Blog</span>
+        <h2 class="section__title" id="latest-posts-heading">Latest Writing</h2>
+        <p class="section__subtitle">
+          Thoughts on logistics engineering, data analytics, consulting, and professional development.
+        </p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid-3">
+        {latestPosts.map((post, i) => (
+          <article class={`card reveal reveal--delay-${i + 1}`}>
+            <div class="card__body">
+              <div class="card__eyebrow">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+              </div>
+              <h3 class="card__title">{post.data.title}</h3>
+              <p class="card__excerpt">{post.data.description}</p>
+              <div class="tags" style="margin-bottom: 1rem;">
+                {post.data.tags.slice(0, 3).map((tag: string) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <a href={`/blog/${post.id}`} class="card__link" id={`post-link-${post.id}`}>
+                Read more
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div style="text-align:center; margin-top: 3rem;" class="reveal">
+        <a href="/blog" class="btn btn--secondary" id="all-posts-link">View All Posts</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURED WORK ──────────────────────────────────────── -->
+  <section class="section section--alt" aria-labelledby="featured-work-heading">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__eyebrow">Portfolio Highlights</span>
+        <h2 class="section__title" id="featured-work-heading">Featured Projects</h2>
+        <p class="section__subtitle">
+          Engineering and analytics projects at the intersection of operational efficiency and data science.
+        </p>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid-2">
+        {portfolioHighlights.map((project, i) => (
+          <article class={`card reveal reveal--delay-${i + 1}`}>
+            <div class="project-card-image">
+              <img
+                src={`/images/project-${i + 1}-thumb.svg`}
+                alt={`${project.title} project thumbnail`}
+                class="card__image"
+                loading="lazy"
+              />
+            </div>
+            <div class="card__body">
+              <div class="card__eyebrow" style="display:flex; gap:0.5rem; align-items:center;">
+                {project.year}
+                <span class={`badge badge--${project.status}`}>
+                  {project.status === 'ongoing' ? '● Ongoing' : '✓ Completed'}
+                </span>
+              </div>
+              <h3 class="card__title">{project.title}</h3>
+              <p class="card__excerpt">{project.description}</p>
+              <div class="tags" style="margin-bottom: 1rem;">
+                {project.tags.map((tag: string) => (
+                  <span class="tag tag--gold">{tag}</span>
+                ))}
+              </div>
+              <a href={project.href} class="card__link" id={`project-link-${i}`}>
+                View details
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div style="text-align:center; margin-top: 3rem;" class="reveal">
+        <a href="/portfolio" class="btn btn--primary" id="all-projects-link">See All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ─────────────────────────────────────────── -->
+  <section class="cta-banner reveal" aria-label="Contact call to action">
+    <div class="container">
+      <div class="cta-banner__inner">
+        <div>
+          <h2 class="cta-banner__title">Let's Connect</h2>
+          <p class="cta-banner__subtitle">
+            Open to internship opportunities, research collaborations, and consulting discussions.
+          </p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href="/contact" class="btn btn--primary" id="cta-contact-link">Get in Touch</a>
+          <a href="/resume" class="btn btn--secondary" id="cta-resume-link" style="--color-primary: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.9);">
+            View Resume
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Stats strip */
+  .stats-strip {
+    background: var(--color-primary);
+    padding-block: var(--space-10);
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+    text-align: center;
+  }
+
+  .stat__value {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: var(--space-2);
+  }
+
+  .stat__label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Intro grid */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .intro__heading {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .intro__body {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: var(--space-4);
+  }
+
+  /* CTA Banner */
+  .cta-banner {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    padding-block: var(--space-16);
+    margin-top: var(--space-20);
+  }
+
+  .cta-banner__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .cta-banner__title {
+    color: #fff;
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-banner__subtitle {
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 0;
+    max-width: 45ch;
+  }
+
+  .cta-banner__actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .intro-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+    .cta-banner__inner { flex-direction: column; text-align: center; }
+    .cta-banner__actions { justify-content: center; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

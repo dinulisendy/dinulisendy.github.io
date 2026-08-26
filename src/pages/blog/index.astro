@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+}
+
+function readingTime(body: string | undefined) {
+  const words = (body ?? '').split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+---
+
+<BaseLayout
+  title="Blog"
+  description="Writing on logistics engineering, data analytics, CIMA, operations research, and professional development in consulting."
+  activeNav="blog"
+>
+  <div class="page-header">
+    <div class="container">
+      <span class="section__eyebrow reveal">Writing</span>
+      <h1 class="page-header__title reveal reveal--delay-1">Blog</h1>
+      <p class="page-header__subtitle reveal reveal--delay-2">
+        Thoughts on logistics engineering, data analytics, and the journey of building
+        a consulting career from an engineering foundation.
+      </p>
+      <div class="divider reveal reveal--delay-3"></div>
+    </div>
+  </div>
+
+  <section class="section" aria-label="Blog post listing">
+    <div class="container">
+      {sortedPosts.length === 0 ? (
+        <p class="empty-state">No posts yet — check back soon!</p>
+      ) : (
+        <div class="blog-list">
+          {sortedPosts.map((post, i) => (
+            <article class={`blog-list__item reveal reveal--delay-${Math.min(i + 1, 5)}`} id={`blog-post-${post.id}`}>
+              <div class="blog-list__meta">
+                <time class="blog-list__date" datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+                <span class="blog-list__read-time">{readingTime(post.body)} min read</span>
+              </div>
+              <div class="blog-list__content">
+                <h2 class="blog-list__title">
+                  <a href={`/blog/${post.id}`} id={`post-title-link-${post.id}`}>
+                    {post.data.title}
+                  </a>
+                </h2>
+                <p class="blog-list__excerpt">{post.data.description}</p>
+                <div class="tags" style="margin-bottom: 1rem;">
+                  {post.data.tags.slice(0, 4).map((tag: string) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                <a href={`/blog/${post.id}`} class="card__link" id={`post-read-link-${post.id}`}>
+                  Read article
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    padding-bottom: var(--space-12);
+    background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-header__subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 55ch;
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .blog-list__item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--space-8);
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .blog-list__item:first-child { padding-top: 0; }
+  .blog-list__item:last-child { border-bottom: none; }
+
+  .blog-list__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-top: 4px;
+  }
+
+  .blog-list__date {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .blog-list__read-time {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+
+  .blog-list__title {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .blog-list__title a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .blog-list__title a:hover { color: var(--color-primary); }
+
+  .blog-list__excerpt {
+    color: var(--color-text-muted);
+    line-height: 1.65;
+    margin-bottom: var(--space-4);
+    font-size: 0.95rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: var(--space-16);
+  }
+
+  @media (max-width: 768px) {
+    .blog-list__item {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .blog-list__meta {
+      flex-direction: row;
+      gap: var(--space-3);
+      align-items: center;
+    }
+  }
+</style>

@@ -1,0 +1,467 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const skills = {
+  'Technical & Analytical': [
+    'Advanced Microsoft Excel',
+    'Python',
+    'C#',
+    'R',
+    'Data Analysis & Reporting',
+    'Advanced Operations Research',
+    'Quantitative Methods',
+    'Financial Analysis',
+    'Cost & Budget Analysis',
+  ],
+  'Business & Management': [
+    'Management Accounting (CIMA)',
+    'Strategic Financial Management',
+    'Business Strategy & Analysis',
+    'Risk Management',
+    'Performance Management',
+    'Financial Reporting',
+  ],
+  'Technology & Tools': [
+    'SAP Technology',
+    'Microsoft Power BI',
+    'Data Visualisation',
+    'Accelerated Data Science (NVIDIA)',
+    'Microsoft Office Suite',
+  ],
+  'Professional & Soft': [
+    'Problem-Solving Frameworks (McKinsey)',
+    'Structured Communication',
+    'Leadership & Partnership Management',
+    'English (Fluent)',
+    'Sinhala (Native)',
+  ],
+};
+
+const certifications = [
+  {
+    name: 'McKinsey Forward Programme',
+    issuer: 'McKinsey & Company',
+    date: 'June 2026',
+    description: 'Digital badge — problem-solving, personal effectiveness, and consulting toolkit.',
+    status: 'completed',
+  },
+  {
+    name: 'Fundamentals of Accelerated Data Science',
+    issuer: 'NVIDIA',
+    date: '2025',
+    description: 'GPU-accelerated data science workflows using RAPIDS and Python.',
+    status: 'completed',
+  },
+  {
+    name: 'Cambridge English KET & PET',
+    issuer: 'British Council',
+    date: 'Prior to 2024',
+    description: 'Cambridge Key English Test and Preliminary English Test — verified English proficiency.',
+    status: 'completed',
+  },
+  {
+    name: 'Microsoft Power BI Data Analyst',
+    issuer: 'Microsoft',
+    date: 'Expected Nov 2026',
+    description: 'Professional certificate covering data modelling, DAX, and reporting in Power BI.',
+    status: 'in-progress',
+  },
+  {
+    name: 'SAP Technology Consultant Professional Certificate',
+    issuer: 'SAP',
+    date: 'Expected Jan 2027',
+    description: 'ERP systems, SAP implementation fundamentals, and enterprise consulting.',
+    status: 'in-progress',
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about Dinuli Galgamuwa — her engineering background, CIMA journey, skills, and approach to consulting and strategy."
+  activeNav="about"
+>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <span class="section__eyebrow reveal">Get to know me</span>
+      <h1 class="page-header__title reveal reveal--delay-1">About Me</h1>
+      <div class="divider reveal reveal--delay-2"></div>
+    </div>
+  </div>
+
+  <!-- About Hero -->
+  <section class="section">
+    <div class="container">
+      <div class="about-hero">
+        <div class="about-hero__photo reveal">
+          <!-- TODO: Replace /images/about-placeholder.png with Dinuli's real professional photo -->
+          <img
+            src="/images/about-placeholder.png"
+            alt="Dinuli Galgamuwa — professional photo"
+            class="about-hero__img"
+            width="360"
+            height="420"
+            loading="eager"
+          />
+          <div class="about-hero__badge">
+            <div class="about-badge">
+              <span class="about-badge__uni">University of Moratuwa</span>
+              <span class="about-badge__degree">BSc Eng (Hons) Transport & Logistics</span>
+              <span class="about-badge__gpa">📊 Dean's List — 4.0 GPA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-hero__content reveal reveal--delay-1">
+          <h2 class="about-hero__heading">Engineering Meets Strategy</h2>
+          <div class="divider divider--left" style="margin-bottom: 1.5rem;"></div>
+
+          <p>
+            I'm Dinuli Galgamuwa — a third-year BSc Engineering (Honours) student in
+            Transport Management &amp; Logistics Engineering at the University of Moratuwa,
+            Sri Lanka's premier technical university. I'm currently on the Dean's List with
+            a 4.0 GPA, and I'm simultaneously pursuing the CIMA (Chartered Institute of
+            Management Accountants) qualification, having completed the Management Level
+            and targeting Strategic Level completion in August 2026.
+          </p>
+          <p>
+            My academic journey is deliberately interdisciplinary. Transport engineering is
+            inherently a systems discipline — you're optimising flows, managing capacity, and
+            balancing competing constraints across complex networks. That same systemic thinking
+            applies directly to business strategy and management consulting, which is why I've
+            invested in building financial and strategic fluency alongside my technical training.
+          </p>
+          <p>
+            Outside the classroom, I'm an active member of the Rotaract Club of the University
+            of Moratuwa (serving on the Partnerships Committee, 2025–26), the Society of
+            Transport &amp; Logistics, and the Classical Music Society. I believe that diverse
+            intellectual and social engagement makes better engineers — and better consultants.
+          </p>
+          <p>
+            I'm eager to bring this hybrid technical and strategic skillset to a management
+            consulting internship starting in November 2026, where I can contribute to
+            data-driven problem-solving and financial modelling that moves the needle for clients.
+          </p>
+
+          <div class="about-hero__links">
+            <a href="/resume" class="btn btn--primary btn--sm" id="about-resume-link">View Full Resume</a>
+            <a href="/contact" class="btn btn--secondary btn--sm" id="about-contact-link">Get in Touch</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="section section--alt" aria-labelledby="skills-heading">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__eyebrow">Expertise</span>
+        <h2 class="section__title" id="skills-heading">Skills &amp; Competencies</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="skills-categories">
+        {Object.entries(skills).map(([category, items], i) => (
+          <div class={`skill-category reveal reveal--delay-${i + 1}`}>
+            <h3 class="skill-category__title">{category}</h3>
+            <div class="skills-grid">
+              {items.map((skill) => (
+                <div class="skill-item">
+                  <span class="skill-item__dot"></span>
+                  {skill}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section class="section" aria-labelledby="certs-heading">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__eyebrow">Qualifications</span>
+        <h2 class="section__title" id="certs-heading">Certifications &amp; Additional Qualifications</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="grid-3">
+        {certifications.map((cert, i) => (
+          <div class={`cert-card reveal reveal--delay-${Math.min(i + 1, 5)}`}>
+            <div class="cert-card__header">
+              <span class={`badge badge--${cert.status === 'completed' ? 'completed' : 'ongoing'}`}>
+                {cert.status === 'completed' ? '✓ Completed' : '● In Progress'}
+              </span>
+              <span class="cert-card__date">{cert.date}</span>
+            </div>
+            <h3 class="cert-card__name">{cert.name}</h3>
+            <div class="cert-card__issuer">{cert.issuer}</div>
+            <p class="cert-card__desc">{cert.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section class="section section--alt" aria-labelledby="edu-heading">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__eyebrow">Academic Background</span>
+        <h2 class="section__title" id="edu-heading">Education</h2>
+        <div class="divider"></div>
+      </div>
+
+      <div class="education-grid">
+        <div class="edu-card reveal reveal--delay-1">
+          <div class="edu-card__logo">🎓</div>
+          <div class="edu-card__body">
+            <div class="timeline-date">2024 – Present</div>
+            <h3 class="timeline-title">University of Moratuwa</h3>
+            <div class="timeline-subtitle">BSc Engineering (Honours) — Transport Management &amp; Logistics Engineering</div>
+            <p class="timeline-body">
+              3rd Year Undergraduate · Semester 04 · <strong>Dean's List (4.0 GPA)</strong><br />
+              Coursework spans transport systems planning, operations research, logistics network design,
+              quantitative methods, and engineering economics.
+            </p>
+          </div>
+        </div>
+
+        <div class="edu-card reveal reveal--delay-2">
+          <div class="edu-card__logo">📚</div>
+          <div class="edu-card__body">
+            <div class="timeline-date">2025 – Present</div>
+            <h3 class="timeline-title">Chartered Institute of Management Accountants (CIMA UK)</h3>
+            <div class="timeline-subtitle">Professional Qualification — Management &amp; Strategic Level</div>
+            <p class="timeline-body">
+              <strong>Management Level — Completed</strong><br />
+              Strategic Level — Expected Completion August 2026<br />
+              Covers management accounting, financial reporting, business strategy, and risk management.
+            </p>
+          </div>
+        </div>
+
+        <div class="edu-card reveal reveal--delay-3">
+          <div class="edu-card__logo">🏫</div>
+          <div class="edu-card__body">
+            <div class="timeline-date">Prior to 2024</div>
+            <h3 class="timeline-title">Central College Anuradhapura</h3>
+            <div class="timeline-subtitle">GCE Advanced Level — Physical Science Stream</div>
+            <p class="timeline-body">
+              Chemistry A · Physics B · Combined Mathematics C<br />
+              GCE Ordinary Level — 9 A Passes
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    padding-bottom: var(--space-10);
+    background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  /* About hero */
+  .about-hero {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .about-hero__photo { position: relative; }
+
+  .about-hero__img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .about-hero__badge {
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2rem);
+  }
+
+  .about-badge {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .about-badge__uni {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-primary-dark);
+  }
+
+  .about-badge__degree {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .about-badge__gpa {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .about-hero__content { padding-top: var(--space-2); }
+
+  .about-hero__heading {
+    margin-bottom: var(--space-2);
+  }
+
+  .about-hero__content p {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    margin-bottom: var(--space-4);
+  }
+
+  .about-hero__links {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  /* Skills */
+  .skills-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+
+  .skill-category__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-primary-light);
+  }
+
+  /* Cert cards */
+  .cert-card {
+    background: #fff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .cert-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .cert-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .cert-card__date {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .cert-card__name {
+    font-size: 0.95rem;
+    margin-bottom: var(--space-1);
+    color: var(--color-text);
+  }
+
+  .cert-card__issuer {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cert-card__desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  /* Education grid */
+  .education-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .edu-card {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: var(--space-5);
+    background: #fff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .edu-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .edu-card__logo {
+    font-size: 2rem;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  @media (max-width: 1024px) {
+    .about-hero {
+      grid-template-columns: 280px 1fr;
+      gap: var(--space-10);
+    }
+    .about-hero__img { height: 340px; }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .about-hero__img { height: 280px; max-width: 280px; margin-inline: auto; }
+    .about-hero__badge { position: static; width: 100%; transform: none; margin-top: var(--space-4); }
+    .about-hero__content { padding-top: var(--space-6); }
+    .skills-categories { grid-template-columns: 1fr; }
+    .edu-card { grid-template-columns: 40px 1fr; }
+  }
+</style>

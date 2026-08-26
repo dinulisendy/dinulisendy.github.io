@@ -1,0 +1,375 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    id: 'pharmacy-inventory',
+    title: 'Pharmacy Inventory Monitoring & Optimisation System',
+    client: 'Healthcare Facility (Sri Lanka)',
+    role: 'Lead Developer & Analyst',
+    year: '2026',
+    status: 'completed',
+    tags: ['Python', 'Data Analysis', 'Supply Chain', 'Inventory Management'],
+    thumbnail: '/images/project-1-thumb.png',
+    summary: 'Built a real-time inventory tracking system with automated purchasing alerts and return triggers, designed to prevent stockouts while reducing excess stock and expiry write-offs in a healthcare supply chain context.',
+    challenge: 'The facility was experiencing recurring stockouts of critical pharmaceutical items alongside simultaneous over-purchasing of slower-moving lines — both driven by manual, experience-based forecasting with no systematic demand analysis.',
+    approach: 'Centralised SKU-level consumption data into a structured database with automated daily ingestion. Built a moving-average demand forecast model with manual override capability (critical for clinical staff adoption). Set dynamic reorder points based on lead time variability rather than average lead time. Configured automated alerts for both stockout risk and excess inventory thresholds.',
+    outcomes: [
+      { value: '↓ 40%', label: 'Emergency procurement events' },
+      { value: '↓ 35%', label: 'Expired stock write-offs' },
+      { value: '3 mo', label: 'Time to measurable impact' },
+    ],
+    technologies: ['Python', 'Pandas', 'SQL', 'Excel (reporting)'],
+  },
+  {
+    id: 'empty-container',
+    title: 'Empty Container Repositioning Optimisation Model',
+    client: 'Container Shipping Context (Academic Research Project)',
+    role: 'Quantitative Analyst & Model Developer',
+    year: '2026 — Ongoing',
+    status: 'ongoing',
+    tags: ['Operations Research', 'Python', 'Transport Engineering', 'Optimisation'],
+    thumbnail: '/images/project-2-thumb.png',
+    summary: 'Developing a data-driven optimisation model to determine where, when, and how many empty containers to reposition across a logistics network — minimising total repositioning and storage costs while balancing container availability at export origins.',
+    challenge: 'Empty container repositioning accounts for an estimated 20–25% of total container movements globally. The core challenge is spatial imbalance: trade flows are asymmetric, causing containers to accumulate at import-heavy locations and creating shortages at export origins. Deciding repositioning moves requires solving a multi-period, multi-location optimisation problem under uncertainty.',
+    approach: 'Formulated the problem as a minimum-cost flow model over a time-space network, where nodes represent depot-port combinations at discrete time windows and arcs capture repositioning moves, storage, and cargo flows. Currently extending to a stochastic programming formulation to handle demand uncertainty explicitly.',
+    outcomes: [
+      { value: 'MIP', label: 'Optimisation formulation' },
+      { value: '~20%', label: 'Target cost reduction' },
+      { value: 'Q4 2026', label: 'Expected completion' },
+    ],
+    technologies: ['Python (PuLP / OR-Tools)', 'Operations Research', 'Network Flow Theory'],
+  },
+  {
+    id: 'transport-analytics',
+    title: 'Transport Network Performance Dashboard',
+    client: 'University Research Project',
+    role: 'Data Analyst',
+    year: '2025',
+    status: 'completed',
+    tags: ['Power BI', 'Data Visualisation', 'Transport Planning'],
+    thumbnail: '/images/project-3-thumb.png',
+    summary: 'Designed and built an interactive performance monitoring dashboard for a regional transport network, enabling planners to identify bottlenecks, track KPIs, and model scenario outcomes visually.',
+    challenge: 'Transport planners were relying on periodic static reports with multi-week lag time, making it impossible to identify emerging performance issues or evaluate the impact of operational interventions in near-real time.',
+    approach: 'Consolidated data from multiple operational sources into a unified data model. Developed calculated measures in DAX to produce key performance indicators including average journey time, on-time performance rate, and network reliability index. Built interactive Power BI dashboards with drill-through capability to route and time-of-day level.',
+    outcomes: [
+      { value: '↓ 85%', label: 'Reporting lag time' },
+      { value: '12', label: 'KPIs tracked in real-time' },
+      { value: '3 mo', label: 'Analysis horizon visualised' },
+    ],
+    technologies: ['Microsoft Power BI', 'DAX', 'Excel', 'Data Modelling'],
+  },
+];
+---
+
+<BaseLayout
+  title="Portfolio"
+  description="Engineering and analytics projects by Dinuli Galgamuwa — inventory optimisation, container repositioning, and transport network analysis."
+  activeNav="portfolio"
+>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <span class="section__eyebrow reveal">My Work</span>
+      <h1 class="page-header__title reveal reveal--delay-1">Portfolio</h1>
+      <p class="page-header__subtitle reveal reveal--delay-2">
+        Engineering and analytical projects at the intersection of logistics, operations research, and data science.
+      </p>
+      <div class="divider reveal reveal--delay-3"></div>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <section class="section" aria-label="Portfolio projects">
+    <div class="container">
+      <div class="projects-list">
+        {projects.map((project, i) => (
+          <article class={`project-card reveal reveal--delay-${Math.min(i + 1, 3)}`} id={`project-${project.id}`}>
+            <div class="project-card__image">
+              <img
+                src={project.thumbnail}
+                alt={`${project.title} thumbnail`}
+                loading="lazy"
+              />
+            </div>
+            <div class="project-card__content">
+              <div class="project-card__meta">
+                <span class={`badge badge--${project.status}`}>
+                  {project.status === 'ongoing' ? '● Ongoing' : '✓ Completed'}
+                </span>
+                <span class="project-card__year">{project.year}</span>
+              </div>
+
+              <h2 class="project-card__title">{project.title}</h2>
+
+              <div class="project-card__details">
+                <span>
+                  <strong>Role:</strong> {project.role}
+                </span>
+                <span>
+                  <strong>Context:</strong> {project.client}
+                </span>
+              </div>
+
+              <p class="project-card__summary">{project.summary}</p>
+
+              <div class="tags" style="margin-bottom: 1.25rem;">
+                {project.tags.map((tag: string) => (
+                  <span class="tag tag--gold">{tag}</span>
+                ))}
+              </div>
+
+              <!-- Expandable detail section -->
+              <button
+                class="expand-btn"
+                aria-expanded="false"
+                aria-controls={`detail-${project.id}`}
+                id={`expand-btn-${project.id}`}
+              >
+                <span class="expand-btn__text">View Project Details</span>
+                <svg class="expand-btn__icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div class="case-study-detail" id={`detail-${project.id}`} aria-hidden="true">
+                <div class="case-study-detail__inner">
+                  <div class="detail-section">
+                    <h3 class="detail-section__title">Challenge</h3>
+                    <p class="detail-section__body">{project.challenge}</p>
+                  </div>
+
+                  <div class="detail-section">
+                    <h3 class="detail-section__title">Approach</h3>
+                    <p class="detail-section__body">{project.approach}</p>
+                  </div>
+
+                  <div class="detail-section">
+                    <h3 class="detail-section__title">Outcomes</h3>
+                    <div class="metrics-row">
+                      {project.outcomes.map((m) => (
+                        <div class="metric">
+                          <div class="metric__value">{m.value}</div>
+                          <div class="metric__label">{m.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div class="detail-section">
+                    <h3 class="detail-section__title">Technologies Used</h3>
+                    <div class="tags">
+                      {project.technologies.map((tech: string) => (
+                        <span class="tag">{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--alt" aria-label="Contact call to action">
+    <div class="container" style="text-align: center;">
+      <div class="reveal">
+        <span class="section__eyebrow">Interested in working together?</span>
+        <h2 style="margin-top: 0.5rem; margin-bottom: 1rem;">Let's Talk</h2>
+        <p style="color: var(--color-text-muted); max-width: 45ch; margin-inline: auto; margin-bottom: 2rem;">
+          Open to internship opportunities, research collaborations, and consulting discussions
+          starting November 2026.
+        </p>
+        <a href="/contact" class="btn btn--primary" id="portfolio-contact-cta">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    padding-bottom: var(--space-10);
+    background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-header__subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 55ch;
+  }
+
+  /* Projects list */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: var(--space-10);
+    background: #fff;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base);
+  }
+
+  .project-card:hover { box-shadow: var(--shadow-md); }
+
+  .project-card__image {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary-light) 100%);
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  .project-card__content {
+    padding: var(--space-8);
+  }
+
+  .project-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .project-card__year {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .project-card__title {
+    font-size: 1.3rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .project-card__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .project-card__details strong {
+    color: var(--color-text);
+  }
+
+  .project-card__summary {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    margin-bottom: var(--space-4);
+  }
+
+  /* Expand button */
+  .expand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: none;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 0.45rem 1rem;
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .expand-btn:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+  }
+
+  .expand-btn[aria-expanded="true"] .expand-btn__icon {
+    transform: rotate(180deg);
+  }
+
+  .expand-btn__icon {
+    transition: transform var(--transition-base);
+  }
+
+  /* Detail sections */
+  .detail-section {
+    margin-bottom: var(--space-5);
+  }
+
+  .detail-section:last-child { margin-bottom: 0; }
+
+  .detail-section__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-2);
+  }
+
+  .detail-section__body {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .project-card { grid-template-columns: 260px 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .project-card { grid-template-columns: 1fr; }
+    .project-card__image { min-height: 180px; }
+    .project-card__content { padding: var(--space-6); }
+  }
+</style>
+
+<script>
+  // Expand/collapse project detail sections
+  document.querySelectorAll('.expand-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      const controlsId = btn.getAttribute('aria-controls');
+      const detail = document.getElementById(controlsId || '');
+
+      btn.setAttribute('aria-expanded', String(!expanded));
+      detail?.setAttribute('aria-hidden', String(expanded));
+
+      if (!expanded) {
+        detail?.classList.add('is-open');
+        (btn.querySelector('.expand-btn__text') as HTMLElement).textContent = 'Hide Details';
+      } else {
+        detail?.classList.remove('is-open');
+        (btn.querySelector('.expand-btn__text') as HTMLElement).textContent = 'View Project Details';
+      }
+    });
+  });
+</script>
