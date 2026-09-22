@@ -41,30 +41,30 @@ const projects = [
     technologies: ['Python (PuLP / OR-Tools)', 'Operations Research', 'Network Flow Theory'],
   },
   {
-    id: 'transport-analytics',
-    title: 'Transport Network Performance Dashboard',
-    client: 'University Research Project',
-    role: 'Data Analyst',
-    year: '2025',
-    status: 'completed',
-    tags: ['Power BI', 'Data Visualisation', 'Transport Planning'],
+    id: 'ride-pooling-platform',
+    title: 'First & Last Mile Ride-Pooling Mobility System — University of Moratuwa',
+    client: 'University of Moratuwa (Academic Design Project)',
+    role: 'System Designer & Analyst',
+    year: '2026 — Ongoing',
+    status: 'ongoing',
+    tags: ['Transport Engineering', 'Operations Research', 'System Design', 'Financial Modelling', 'Mobility'],
     thumbnail: '/images/project-3-thumb.png',
-    summary: 'Designed and built an interactive performance monitoring dashboard for a regional transport network, enabling planners to identify bottlenecks, track KPIs, and model scenario outcomes visually.',
-    challenge: 'Transport planners were relying on periodic static reports with multi-week lag time, making it impossible to identify emerging performance issues or evaluate the impact of operational interventions in near-real time.',
-    approach: 'Consolidated data from multiple operational sources into a unified data model. Developed calculated measures in DAX to produce key performance indicators including average journey time, on-time performance rate, and network reliability index. Built interactive Power BI dashboards with drill-through capability to route and time-of-day level.',
+    summary: 'Designed a digital ride-pooling platform to close the first- and last-mile connectivity gap between the University of Moratuwa and nearby public-transport hubs (Katubedda, Moratuwa Station, Piliyandala). The system matches verified students and staff with verified three-wheeler drivers, pooling 2–3 passengers per trip to reduce individual fares and improve vehicle utilisation.',
+    challenge: 'Students and staff travelling between UoM and nearby transport hubs faced unreliable vehicle availability, full solo fares for short distances, and long waits — while three-wheelers operated below capacity. No structured, verified pooling mechanism existed to bridge this gap affordably and safely.',
+    approach: 'Developed a six-domain operating model covering service design, capacity & resource planning, scheduling & deployment, operations management, disruption control, and continuous performance improvement. Built a platform commission-based financial model using route-level fare data, demand scenarios (worst/base/best), and a 10% commission structure. Conducted a 10-category implementation readiness assessment, yielding a readiness score of 76.7%. Designed a verification and validation plan culminating in a controlled UoM pilot.',
     outcomes: [
-      { value: '↓ 85%', label: 'Reporting lag time' },
-      { value: '12', label: 'KPIs tracked in real-time' },
-      { value: '3 mo', label: 'Analysis horizon visualised' },
+      { value: '≥40%', label: 'Passenger fare saving (vs. solo)' },
+      { value: 'LKR 118K', label: 'Base-case monthly platform revenue' },
+      { value: '76.7%', label: 'Implementation readiness score' },
     ],
-    technologies: ['Microsoft Power BI', 'DAX', 'Excel', 'Data Modelling'],
+    technologies: ['System Design', 'Operations Research', 'Financial Modelling (NPV/IRR)', 'Demand Forecasting', 'KPI Framework Design'],
   },
 ];
 ---
 
 <BaseLayout
   title="Portfolio"
-  description="Engineering and analytics projects by Dinuli Galgamuwa — inventory optimisation, container repositioning, and transport network analysis."
+  description="Engineering and analytics projects by Dinuli Galgamuwa — inventory optimisation, container repositioning, and ride-pooling mobility system design."
   activeNav="portfolio"
 >
   <!-- Page Header -->

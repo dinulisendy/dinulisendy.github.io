@@ -1,6 +1,5 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -8,9 +7,8 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, tags, heroImage } = post.data;
+const { title, description, pubDate, tags, heroImage, gallery } = post.data;
 
-// Estimated reading time
 const wordsPerMinute = 200;
 const wordCount = (post.body ?? '').split(/\s+/).length;
 const readingTime = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
@@ -70,6 +68,38 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
         <slot />
       </div>
 
+      <!-- Photo Gallery -->
+      {gallery && gallery.length > 0 && (
+        <div class="blog-gallery" id="blog-gallery" aria-label="Post photo gallery">
+          <div class="blog-gallery__header">
+            <span class="section__eyebrow">Photos</span>
+            <h2 class="blog-gallery__title">From the Field</h2>
+          </div>
+          <div class="blog-gallery__grid">
+            {gallery.map((photo, i) => (
+              <button
+                class="blog-gallery__item"
+                data-index={String(i)}
+                aria-label={`Open photo ${i + 1}: ${photo.alt}`}
+                id={`gallery-item-${i}`}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  class="blog-gallery__img"
+                />
+                <div class="blog-gallery__overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div class="blog-post__footer">
         <a href="/blog" class="btn btn--secondary btn--sm">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -80,6 +110,32 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
       </div>
     </div>
   </article>
+
+  <!-- Lightbox -->
+  {gallery && gallery.length > 0 && (
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo lightbox" aria-hidden="true">
+      <button class="lightbox__close" id="lightbox-close" aria-label="Close lightbox">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" aria-label="Previous photo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lightbox__content">
+        <img src="" alt="" class="lightbox__img" id="lightbox-img" />
+        <p class="lightbox__caption" id="lightbox-caption"></p>
+        <span class="lightbox__counter" id="lightbox-counter"></span>
+      </div>
+      <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" aria-label="Next photo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  )}
 </BaseLayout>
 
 <style>
@@ -154,4 +210,258 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
     padding-top: var(--space-8);
     border-top: 1px solid var(--color-border);
   }
+
+  /* ── Gallery ── */
+  .blog-gallery {
+    max-width: 900px;
+    margin-inline: auto;
+    margin-top: var(--space-16);
+    padding-top: var(--space-10);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .blog-gallery__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .blog-gallery__title {
+    font-size: 1.4rem;
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+  }
+
+  .blog-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 220px;
+    gap: var(--space-3);
+  }
+
+  .blog-gallery__item:first-child {
+    grid-column: span 2;
+  }
+
+  .blog-gallery__item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-border);
+    cursor: pointer;
+    padding: 0;
+    background: var(--color-bg-alt);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .blog-gallery__item:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .blog-gallery__item:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  .blog-gallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, filter 0.4s ease;
+  }
+
+  .blog-gallery__item:hover .blog-gallery__img {
+    transform: scale(1.05);
+    filter: brightness(0.75);
+  }
+
+  .blog-gallery__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+  }
+
+  .blog-gallery__item:hover .blog-gallery__overlay {
+    opacity: 1;
+  }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.93);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .lightbox.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .lightbox__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: min(90vw, 900px);
+    max-height: 90vh;
+  }
+
+  .lightbox__img {
+    max-width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    transition: opacity 0.2s ease;
+  }
+
+  .lightbox__caption {
+    margin-top: var(--space-3);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.85rem;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .lightbox__counter {
+    margin-top: var(--space-2);
+    color: rgba(255,255,255,0.45);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .lightbox__close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    z-index: 10000;
+  }
+
+  .lightbox__close:hover { background: rgba(255,255,255,0.2); }
+
+  .lightbox__nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    z-index: 10000;
+  }
+
+  .lightbox__nav:hover { background: rgba(255,255,255,0.25); }
+  .lightbox__nav--prev { left: 1rem; }
+  .lightbox__nav--next { right: 1rem; }
+
+  @media (max-width: 768px) {
+    .blog-gallery__grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 180px;
+    }
+    .blog-gallery__item:first-child { grid-column: span 2; }
+    .lightbox__nav { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .blog-gallery__grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 220px;
+    }
+    .blog-gallery__item:first-child { grid-column: span 1; }
+  }
 </style>
+
+<script>
+  const galleryItems = document.querySelectorAll<HTMLButtonElement>('.blog-gallery__item');
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const lbCaption = document.getElementById('lightbox-caption');
+  const lbCounter = document.getElementById('lightbox-counter');
+  const lbClose = document.getElementById('lightbox-close');
+  const lbPrev = document.getElementById('lightbox-prev');
+  const lbNext = document.getElementById('lightbox-next');
+
+  if (lightbox && lbImg && galleryItems.length > 0) {
+    let current = 0;
+
+    const photos = Array.from(galleryItems).map((btn) => {
+      const img = btn.querySelector('img')!;
+      return { src: img.src, alt: img.alt };
+    });
+
+    function openLightbox(index: number) {
+      current = (index + photos.length) % photos.length;
+      if (!lbImg) return;
+      lbImg.style.opacity = '0';
+      lbImg.src = photos[current].src;
+      lbImg.alt = photos[current].alt;
+      if (lbCaption) lbCaption.textContent = photos[current].alt;
+      if (lbCounter) lbCounter.textContent = `${current + 1} / ${photos.length}`;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lbImg.onload = () => { if (lbImg) lbImg.style.opacity = '1'; };
+      (lbClose as HTMLElement | null)?.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      (galleryItems[current] as HTMLElement)?.focus();
+    }
+
+    galleryItems.forEach((btn, i) => {
+      btn.addEventListener('click', () => openLightbox(i));
+    });
+
+    lbClose?.addEventListener('click', closeLightbox);
+    lbPrev?.addEventListener('click', () => openLightbox(current - 1));
+    lbNext?.addEventListener('click', () => openLightbox(current + 1));
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') openLightbox(current - 1);
+      if (e.key === 'ArrowRight') openLightbox(current + 1);
+    });
+  }
+</script>
