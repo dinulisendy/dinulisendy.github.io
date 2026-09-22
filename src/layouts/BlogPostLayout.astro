@@ -80,6 +80,7 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
               <button
                 class="blog-gallery__item"
                 data-index={String(i)}
+                data-event={photo.event ?? ''}
                 aria-label={`Open photo ${i + 1}: ${photo.alt}`}
                 id={`gallery-item-${i}`}
               >
@@ -90,7 +91,10 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
                   class="blog-gallery__img"
                 />
                 <div class="blog-gallery__overlay">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  {photo.event && (
+                    <span class="blog-gallery__event-badge">{photo.event}</span>
+                  )}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="blog-gallery__zoom-icon">
                     <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
@@ -126,6 +130,7 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
       </button>
       <div class="lightbox__content">
         <img src="" alt="" class="lightbox__img" id="lightbox-img" />
+        <span class="lightbox__event" id="lightbox-event"></span>
         <p class="lightbox__caption" id="lightbox-caption"></p>
         <span class="lightbox__counter" id="lightbox-counter"></span>
       </div>
@@ -280,16 +285,70 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
     color: #fff;
     opacity: 0;
+    background: rgba(0,0,0,0.35);
     transition: opacity var(--transition-base);
     pointer-events: none;
   }
 
   .blog-gallery__item:hover .blog-gallery__overlay {
     opacity: 1;
+  }
+
+  .blog-gallery__event-badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: var(--radius-full);
+    padding: 0.2rem 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+  }
+
+  .blog-gallery__zoom-icon {
+    opacity: 0.9;
+  }
+
+  /* Inline figure (used in prose for the Insight sketch) */
+  :global(.inline-figure) {
+    float: right;
+    margin: 0 0 1.5rem 2rem;
+    max-width: 340px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background: #e8f4fc;
+  }
+
+  :global(.inline-figure__img) {
+    width: 100%;
+    display: block;
+  }
+
+  :global(.inline-figure__caption) {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    padding: 0.6rem 0.75rem;
+    line-height: 1.5;
+    margin: 0;
+    background: var(--color-bg-alt);
+  }
+
+  @media (max-width: 640px) {
+    :global(.inline-figure) {
+      float: none;
+      max-width: 100%;
+      margin: 1.5rem 0;
+    }
   }
 
   /* ── Lightbox ── */
@@ -328,18 +387,35 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
     transition: opacity 0.2s ease;
   }
 
-  .lightbox__caption {
+  .lightbox__event {
     margin-top: var(--space-3);
-    color: rgba(255,255,255,0.75);
-    font-size: 0.85rem;
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: var(--radius-full);
+    padding: 0.2rem 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .lightbox__event:empty { display: none; }
+
+  .lightbox__caption {
+    margin-top: var(--space-2);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.82rem;
     text-align: center;
     font-style: italic;
+    max-width: 60ch;
   }
 
   .lightbox__counter {
     margin-top: var(--space-2);
-    color: rgba(255,255,255,0.45);
-    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -418,9 +494,11 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
   if (lightbox && lbImg && galleryItems.length > 0) {
     let current = 0;
 
+    const lbEvent = document.getElementById('lightbox-event');
+
     const photos = Array.from(galleryItems).map((btn) => {
       const img = btn.querySelector('img')!;
-      return { src: img.src, alt: img.alt };
+      return { src: img.src, alt: img.alt, event: btn.dataset.event ?? '' };
     });
 
     function openLightbox(index: number) {
@@ -429,6 +507,7 @@ const formattedDate = new Intl.DateTimeFormat('en-GB', {
       lbImg.style.opacity = '0';
       lbImg.src = photos[current].src;
       lbImg.alt = photos[current].alt;
+      if (lbEvent) lbEvent.textContent = photos[current].event;
       if (lbCaption) lbCaption.textContent = photos[current].alt;
       if (lbCounter) lbCounter.textContent = `${current + 1} / ${photos.length}`;
       lightbox.classList.add('is-open');
